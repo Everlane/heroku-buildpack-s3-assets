@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
 
+readonly BUILD_DIR=${1:-}
+
+if [[ ! -f "${BUILD_DIR}/public/assets/manifest.json" ]]; then
+  echo "Missing public/assets/manifest.json. Nothing to upload."
+  exit 1
+fi
+
 echo "Uploading assets to S3 then deleting them…"
 exit 0
