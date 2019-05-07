@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "Uploading assets to S3 then deleting them…"
+exit 0
