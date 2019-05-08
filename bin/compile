@@ -24,6 +24,7 @@ Aws.config.update({
 config = Everlane::AssetUpload::Configuration.new(
   app_dir: BUILD_DIR,
   bucket: get_app_env_var('ASSET_S3_BUCKET'),
+  debug: true,
 )
 
 Everlane::AssetUpload::ManifestUploader.call(config: config)

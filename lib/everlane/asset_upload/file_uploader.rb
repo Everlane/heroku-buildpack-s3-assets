@@ -7,8 +7,9 @@ module Everlane::AssetUpload
     CACHE_CONTROL = 'public, max-age=31536000, immutable'
     DEFAULT_MIME_TYPE = MIME::Types['application/octet-stream']
 
-    def initialize(bucket, local_path, remote_path)
+    def initialize(bucket:, debug:, local_path:, remote_path:)
       @bucket = bucket
+      @debug = debug
       @local_path = local_path
       @remote_path = remote_path
     end
@@ -22,6 +23,8 @@ module Everlane::AssetUpload
         })
 
       FileUtils.remove(local_path)
+
+      puts "  ✓ #{remote_path}" if @debug
     end
 
     private

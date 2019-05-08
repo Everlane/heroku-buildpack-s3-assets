@@ -7,5 +7,5 @@ if [[ ! -f "${BUILD_DIR}/public/assets/manifest.json" ]]; then
   exit 1
 fi
 
-echo "Uploading assets to S3 then deleting them…"
+echo "Everlane/heroku-buildpack-s3-assets"
 exit 0

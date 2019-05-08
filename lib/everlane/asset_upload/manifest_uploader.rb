@@ -13,7 +13,12 @@ module Everlane::AssetUpload
 
     def files
       manifest.values.map do |path|
-        FileUploader.new(bucket, local_path(path), remote_path(path))
+        FileUploader.new(
+          bucket: bucket,
+          debug: config.debug?,
+          local_path: local_path(path),
+          remote_path: remote_path(path)
+        )
       end
     end
 

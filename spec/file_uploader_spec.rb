@@ -6,7 +6,14 @@ describe Everlane::AssetUpload::FileUploader do
   let(:uploader) { double('bucket uploader') }
   let(:local_path) { '/everlane.com/public/assets/foo.css' }
   let(:remote_path) { 'abc123/foo.css' }
-  let(:file_uploader) { Everlane::AssetUpload::FileUploader.new('frucket', local_path, remote_path) }
+  let(:file_uploader) do
+    Everlane::AssetUpload::FileUploader.new(
+      bucket: 'frucket',
+      debug: false,
+      local_path: local_path,
+      remote_path: remote_path
+    )
+  end
 
   before do
     allow(Aws::S3::Resource).to receive(:new).and_return(resource)
