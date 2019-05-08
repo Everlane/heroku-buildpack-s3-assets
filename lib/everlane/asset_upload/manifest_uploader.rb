@@ -2,7 +2,7 @@ module Everlane::AssetUpload
   class ManifestUploader
     def initialize(config:, manifest: nil)
       @config = config
-      @manifest = manifest
+      @manifest = manifest || parse_manifest
     end
 
     def call
@@ -38,12 +38,15 @@ module Everlane::AssetUpload
     end
 
     def manifest
-      # See also config/webpack/environment.js
-      @manifest ||= JSON.parse(
+      @manifest.tap { |m| m.delete 'entrypoints' }
+    end
+
+    def parse_manifest
+      JSON.parse(
         File.read(
           File.join(config.app_dir, 'public', 'assets', 'manifest.json')
         )
-      ).tap { |m| m.delete 'entrypoints' }
+      )
     end
   end
 end
