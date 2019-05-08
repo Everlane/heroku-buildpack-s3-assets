@@ -6,6 +6,9 @@ ENV_DIR = ARGV[2]
 
 def get_app_env_var(name)
   File.read File.join(ENV_DIR, name)
+rescue
+  puts "Missing environment variable: #{name}"
+  exit 1
 end
 
 `bundle`
