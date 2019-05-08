@@ -24,8 +24,6 @@ describe Everlane::AssetUpload::ManifestUploader do
       Everlane::AssetUpload::Configuration.new(
         app_dir: '/path/to/app',
         bucket: 'my-bucket',
-        key: 's3-key',
-        secret: 'sekret',
       )
     end
 
@@ -52,8 +50,6 @@ describe Everlane::AssetUpload::ManifestUploader do
       Everlane::AssetUpload::Configuration.new(
         app_dir: nil,
         bucket: nil,
-        key: nil,
-        secret: nil,
       )
     end
 

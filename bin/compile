@@ -14,11 +14,14 @@ end
 `bundle`
 require_relative '../lib/everlane/asset_upload'
 
-config = Everlane::AssetUpload::Configuration.new(
+Aws.config.update({
+  credentials: Aws::Credentials.new(
+    get_app_env_var('S3_ACCESS_KEY_ID'),
+    get_app_env_var('S3_SECRET_KEY')
+  )
+})
+
+Everlane::AssetUpload::ManifestUploader.call({
   app_dir: BUILD_DIR,
   bucket: get_app_env_var('ASSET_S3_BUCKET'),
-  key:  get_app_env_var('S3_ACCESS_KEY_ID'),
-  secret: get_app_env_var('S3_SECRET_KEY'),
-)
-
-Everlane::AssetUpload::ManifestUploader.call(config: config)
+})

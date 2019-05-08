@@ -1,16 +1,14 @@
 module Everlane::AssetUpload
   class Configuration
-    attr_reader :key, :app_dir, :bucket, :secret
+    attr_reader :app_dir, :bucket
 
-    def initialize(app_dir:, bucket:, key:, secret:)
+    def initialize(app_dir:, bucket:)
       @app_dir = app_dir
       @bucket = bucket
-      @key = key
-      @secret = secret
     end
 
     def upload?
-      !!(app_dir && bucket && key && secret)
+      !!(app_dir && bucket)
     end
   end
 end
