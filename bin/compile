@@ -1,4 +1,21 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ruby
 
-echo "Nothing to do yet"
-exit 0
+BUILD_DIR = ARGV[0]
+CACHE_DIR = ARGV[1]
+ENV_DIR = ARGV[2]
+
+def get_app_env_var(name)
+  File.read File.join(ENV_DIR, name)
+end
+
+`bundle`
+require_relative '../lib/everlane/asset_upload'
+
+config = Everlane::AssetUpload::Configuration.new(
+  app_dir: BUILD_DIR
+  bucket: get_app_env_var('ASSET_S3_BUCKET'),
+  key:  get_app_env_var('S3_ACCESS_KEY_ID'),
+  secret: get_app_env_var('S3_SECRET_KEY'),
+)
+
+Everlane::AssetUpload::ManifestUploader.call(config: config)
