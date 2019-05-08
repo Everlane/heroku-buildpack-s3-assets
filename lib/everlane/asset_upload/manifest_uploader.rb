@@ -12,7 +12,7 @@ module Everlane::AssetUpload
     end
 
     def files
-      manifest.without('entrypoints').values.map do |path|
+      manifest.values.map do |path|
         FileUploader.new(bucket, local_path(path), remote_path(path))
       end
     end
@@ -43,7 +43,7 @@ module Everlane::AssetUpload
         File.read(
           File.join(config.app_dir, 'public', 'assets', 'manifest.json')
         )
-      )
+      ).tap { |m| m.delete 'entrypoints' }
     end
   end
 end
