@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
+
 BUILD_DIR = ARGV[0]
 CACHE_DIR = ARGV[1]
 ENV_DIR = ARGV[2]
@@ -9,6 +11,12 @@ def get_app_env_var(name)
 rescue
   puts "Missing environment variable: #{name}"
   exit 1
+end
+
+def rm_app_path(path)
+  path = File.join(BUILD_DIR, path)
+  FileUtils.rm_rf path
+  puts "rm -rf #{path}"
 end
 
 `bundle`
@@ -28,3 +36,6 @@ config = Everlane::AssetUpload::Configuration.new(
 )
 
 Everlane::AssetUpload::ManifestUploader.call(config: config)
+rm_app_path 'public/assets/css'
+rm_app_path 'public/assets/js'
+rm_app_path 'public/assets/media'

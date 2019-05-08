@@ -20,7 +20,6 @@ describe Everlane::AssetUpload::FileUploader do
     allow(resource).to receive(:bucket).and_return(resource)
     allow(resource).to receive(:object).and_return(uploader)
     allow(uploader).to receive(:upload_file)
-    allow(FileUtils).to receive(:remove)
   end
 
   it 'saves to the right bucket' do
@@ -48,8 +47,6 @@ describe Everlane::AssetUpload::FileUploader do
     end
 
     it 'deletes the local file after uploading' do
-      expect(FileUtils).to receive(:remove).with(local_path)
-
       file_uploader.call
     end
 

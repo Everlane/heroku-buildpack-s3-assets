@@ -22,8 +22,6 @@ module Everlane::AssetUpload
           content_type: mime_type
         })
 
-      FileUtils.remove(local_path)
-
       puts "  ✓ #{remote_path}" if @debug
     end
 
