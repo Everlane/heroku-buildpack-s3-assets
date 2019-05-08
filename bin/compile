@@ -5,7 +5,7 @@ CACHE_DIR = ARGV[1]
 ENV_DIR = ARGV[2]
 
 def get_app_env_var(name)
-  File.read File.join(ENV_DIR, name)
+  File.read(File.join(ENV_DIR, name)).strip
 rescue
   puts "Missing environment variable: #{name}"
   exit 1
@@ -21,7 +21,9 @@ Aws.config.update({
   )
 })
 
-Everlane::AssetUpload::ManifestUploader.call({
+config = Everlane::AssetUpload::Configuration.new(
   app_dir: BUILD_DIR,
   bucket: get_app_env_var('ASSET_S3_BUCKET'),
-})
+)
+
+Everlane::AssetUpload::ManifestUploader.call(config: config)
