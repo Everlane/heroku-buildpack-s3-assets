@@ -12,7 +12,7 @@ module Everlane::AssetUpload
     end
 
     def files
-      manifest.values.map do |path|
+      manifest_files.map do |path|
         FileUploader.new(
           bucket: bucket,
           debug: config.debug?,
@@ -20,6 +20,24 @@ module Everlane::AssetUpload
           remote_path: remote_path(path)
         )
       end
+    end
+
+    def manifest_files
+      get_files_from_manifest(@manifest).to_a
+    end
+
+    def get_files_from_manifest(manifest)
+      unique_files = Set.new
+      manifest.each do |_, val|
+        if val.instance_of?(String)
+          unique_files.add(val)
+        elsif val.instance_of?(Array)
+          unique_files.merge(val)
+        else
+          unique_files.merge(get_files_from_manifest(val))
+        end
+      end
+      unique_files
     end
 
     def self.call(*args)
@@ -40,10 +58,6 @@ module Everlane::AssetUpload
 
     def bucket
       config.bucket
-    end
-
-    def manifest
-      @manifest.tap { |m| m.delete 'entrypoints' }
     end
 
     def parse_manifest
